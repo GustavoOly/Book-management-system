@@ -20,9 +20,11 @@
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.1",
     "@electron-toolkit/utils": "^3.0.0",
+    "better-sqlite3": "^11.1.2",
     "electron-updater": "^6.1.7",
     "react-icons": "^5.2.1",
-    "react-router-dom": "^6.25.1"
+    "react-router-dom": "^6.25.1",
+    "tailwindcss-animated": "^1.1.2"
   },
   "devDependencies": {
     "@electron-toolkit/eslint-config": "^1.0.2",
