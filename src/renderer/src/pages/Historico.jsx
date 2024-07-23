@@ -7,7 +7,6 @@ export default function Historico() {
     return (
         <>
             <Header />
-            <NavBar />
             <HistoricTable />
         </>
 

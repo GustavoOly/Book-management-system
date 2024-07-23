@@ -1,91 +1,149 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { GoTrash } from "react-icons/go";
+import Cadastrar from "./Cadastrar";
 
 export default function HistoricTable() {
-    const tHeader = ["Alugueis", "Nome", "Telefone", "Livro", "Data", "Prazo de devolução"];
-    const th = " p-2 max-w-5";
-    const tr = [
-        {
-            nome: "João Poucas Ideia",
-            livros: "Como assaltar bancos sem violência, de Roderic  Knowles.",
-            data: "2024-07-18",
-            dataDevolucao: "2024-07-25",
-            autor: "Autor A",
-            genero: "Ficção",
-            isbn: "978-3-16-148410-0",
-            status: "Em andamento",
-            telefone: "(64) 6666-6666"
-        },
-        {
-            nome: "Maria Das Colves",
-            livros: "Como começar seu próprio país, de Erwin S. Strauss.",
-            data: "2024-07-19",
-            dataDevolucao: "2024-07-26",
-            autor: "Autor B",
-            genero: "Não-ficção",
-            isbn: "978-1-23-456789-0",
-            status: "Devolvido",
-            telefone: "(84) desconhecido"
-        },
-        {
-            nome: "Jaison Mendes",
-            livros: "Caixões: Faça você mesmo, de Dale Power.",
-            data: "2024-07-20",
-            dataDevolucao: "2024-07-27",
-            autor: "Autor C",
-            genero: "Ficção Científica",
-            isbn: "978-1-84-749217-8",
-            status: "Em andamento",
-            telefone: "4567-8910"
-        },
-        {
-            nome: "Anna Clara Com Dois Enês",
-            livros: "Como se tornar esquizofrênico, de Jhon Modrow",
-            data: "2024-07-21",
-            dataDevolucao: "2024-07-28",
-            autor: "Autor D",
-            genero: "Biografia",
-            isbn: "978-0-14-017739-8",
-            status: "Devolvido",
-            telefone: "3210-9876"
-        },
-        {
-            nome: "Paula Tejando Almeida",
-            livros: "Como defecar na floresta, de Kathleen Meyer",
-            data: "2024-07-22",
-            dataDevolucao: "2024-07-29",
-            autor: "Autor E",
-            genero: "História",
-            isbn: "978-0-06-224854-8",
-            status: "Em andamento",
-            telefone: "6789-0123"
-        }
-    ];
+    const tHeader = ["Nome", "Telefone", "Livro", "Data", "Prazo de devolução", "Estado"];
+    const th = "p-2 max-w-5 text-center";
 
-
+    const [data, setData] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
+    const [deletedRow, setDeletedRow] = useState(null);
+    const [restoreTimeout, setRestoreTimeout] = useState(null);
+    const [secondsRemaining, setSecondsRemaining] = useState(5);
+    const [filterPending, setFilterPending] = useState(false);
+    const [filterOverdue, setFilterOverdue] = useState(false);
+    const [showAll, setShowAll] = useState(true);
 
-    const filteredRows = tr.filter((row) =>
-        row.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        row.livros.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        row.data.includes(searchTerm) ||
-        row.dataDevolucao.includes(searchTerm)
-    );
+    useEffect(() => {
+        if (deletedRow !== null) {
+            setSecondsRemaining(5);
+            const interval = setInterval(() => {
+                setSecondsRemaining(prev => prev - 1);
+            }, 1000);
+            const timeout = setTimeout(() => {
+                setDeletedRow(null);
+            }, 5000);
+            setRestoreTimeout(timeout);
+            return () => {
+                clearInterval(interval);
+                clearTimeout(timeout);
+            };
+        }
+    }, [deletedRow]);
 
+    const getStatus = (item) => {
+        if (new Date(item.dataDevolucao) < new Date()) {
+            return "Atrasado";
+        }
+        return "Em andamento";
+    };
+
+    const updateOverdueStatus = (data) => {
+        return data.map(item => {
+            if (new Date(item.dataDevolucao) < new Date() && item.status === "Em andamento") {
+                return { ...item, status: "Atrasado" };
+            }
+            return item;
+        });
+    };
+
+    const handleSubmit = (newItem) => {
+        newItem.status = getStatus(newItem);
+        const updatedData = updateOverdueStatus([...data, newItem]);
+        setData(updatedData);
+    };
+
+    const handleComplete = (index) => {
+        const newData = [...data];
+        newData[index].status = newData[index].status === "Devolvido" ? getStatus(newData[index]) : "Devolvido";
+        setData(updateOverdueStatus(newData));
+    };
+
+    const handleDelete = (index) => {
+        setDeletedRow({ ...data[index], index });
+        const newData = data.filter((_, i) => i !== index);
+        setData(updateOverdueStatus(newData));
+    };
+
+    const handleRestore = () => {
+        if (deletedRow !== null) {
+            const newData = [...data];
+            newData.splice(deletedRow.index, 0, deletedRow);
+            setData(updateOverdueStatus(newData));
+            setDeletedRow(null);
+            clearTimeout(restoreTimeout);
+        }
+    };
+
+    const filteredRows = data.filter((row) => {
+        const isPending = row.status === "Em andamento";
+        const isOverdue = row.status === "Atrasado";
+        const matchesSearchTerm = row.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            row.livros.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            row.dataEmprestimo.includes(searchTerm) ||
+            row.dataDevolucao.includes(searchTerm);
+
+        if (showAll) {
+            return matchesSearchTerm;
+        } else if (filterPending && filterOverdue) {
+            return matchesSearchTerm && (isPending || isOverdue);
+        } else if (filterPending) {
+            return matchesSearchTerm && isPending;
+        } else if (filterOverdue) {
+            return matchesSearchTerm && isOverdue;
+        } else {
+            return matchesSearchTerm;
+        }
+    });
 
     return (
         <section className="w-full h-auto">
-            <div className="max-w-6xl px-2 m-auto">
-                <div className="w-full  py-4">
+            <Cadastrar data={data} onSubmit={handleSubmit} />
+            <div className="max-w-7xl min-h-lvh  px-2 m-auto">
+                <div className="w-full py-4 flex justify-between items-center gap-2">
                     <input
                         type="text"
                         placeholder="Buscar..."
-                        className="w-full p-2 border-b-2  border-tertiary rounded"
+                        className="w-6/12 p-2 border-2 border-tertiary rounded"
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                     />
+                    <div>
+                        <button
+                            onClick={() => {
+                                setShowAll(true);
+                                setFilterPending(false);
+                                setFilterOverdue(false);
+                            }}
+                            className={`p-2 rounded ${showAll ? "bg-tertiary" : ""}`}
+                        >
+                            Todos
+                        </button>
+                        <button
+                            onClick={() => {
+                                setShowAll(false);
+                                setFilterPending(true);
+                                setFilterOverdue(false);
+                            }}
+                            className={`p-2 rounded ${filterPending ? "bg-tertiary" : ""}`}
+                        >
+                            Pendentes
+                        </button>
+                        <button
+                            onClick={() => {
+                                setShowAll(false);
+                                setFilterPending(false);
+                                setFilterOverdue(true);
+                            }}
+                            className={`p-2 rounded ${filterOverdue ? "bg-tertiary" : ""}`}
+                        >
+                            Atrasados
+                        </button>
+                    </div>
                 </div>
-                <table className="w-full  border-collapse">
-                    <thead className="">
+                <table className="w-full border-collapse">
+                    <thead>
                         <tr className="bg-primary text-secundary">
                             {tHeader.map((header, index) => (
                                 <th key={index} className={th}>{header}</th>
@@ -95,17 +153,36 @@ export default function HistoricTable() {
                     <tbody>
                         {filteredRows.map((row, index) => (
                             <tr className="even:bg-quinary" key={index}>
-                                <th className={th}>{filteredRows.length - index}</th>
-                                <th className={th}>{row.nome}</th>
-                                <th className={th}>{row.telefone}</th>
-                                <th className={th}>{row.livros}</th>
-                                <th className={th}>{row.data}</th>
-                                <th className={th}>{row.dataDevolucao}</th>
+                                <td className={th}>{row.nome}</td>
+                                <td className={th}>{row.telefone}</td>
+                                <td className={th}>{row.livros}</td>
+                                <td className={th}>{row.dataEmprestimo}</td>
+                                <td className={th}>{row.dataDevolucao}</td>
+                                <td className={th}>
+                                    <div className="flex justify-between gap-2">
+                                        <button
+                                            onClick={() => handleComplete(index)}
+                                            className={`w-10/12 p-2 rounded text-white hover:opacity-85 `}
+                                        >
+                                            {row.status}
+                                        </button>
+                                        <button onClick={() => handleDelete(index)} className="p-2 rounded bg-red text-secundary hover:opacity-85">
+                                            <GoTrash />
+                                        </button>
+                                    </div>
+                                </td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
+
+                {deletedRow && (
+                    <div className="fixed bottom-4 left-4 bg-primary text-secundary p-4 rounded animate-fade-right ">
+                        <p>{secondsRemaining} segundos para Restaurar.</p>
+                        <button onClick={handleRestore} className="bg-blue-500 text-white p-2 rounded mt-2">Restaurar</button>
+                    </div>
+                )}
             </div>
-        </section>
-    )
+        </section >
+    );
 }
