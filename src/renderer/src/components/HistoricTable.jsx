@@ -97,6 +97,19 @@ export default function HistoricTable() {
         }
     });
 
+    const getStatusClass = (status) => {
+        switch (status) {
+            case "Em andamento":
+                return "bg-quartenary text-secundary";
+            case "Atrasado":
+                return "bg-red text-secundary";
+            case "Devolvido":
+                return "bg-green text-secundary";
+            default:
+                return "bg-tertiary";
+        }
+    };
+
     return (
         <section className="w-full h-auto">
             <Cadastrar data={data} onSubmit={handleSubmit} />
@@ -162,7 +175,7 @@ export default function HistoricTable() {
                                     <div className="flex justify-between gap-2">
                                         <button
                                             onClick={() => handleComplete(index)}
-                                            className={`w-10/12 p-2 rounded text-white hover:opacity-85 `}
+                                            className={`w-10/12 p-2 rounded hover:opacity-85 ${getStatusClass(row.status)}`}
                                         >
                                             {row.status}
                                         </button>

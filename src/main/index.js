@@ -2,16 +2,17 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/logo-ipameri-min.png?asset'
+import db from './database.js';
 
 function createWindow() {
-  // Create the browser window.
   const mainWindow = new BrowserWindow({
-    height: 300,
-    width: 900,
+    width: 1200,
+    height: 800,
     minHeight: 600,
     minWidth: 900,
     show: false,
-    autoHideMenuBar: true,
+    autoHideMenuBar: false,
+    frame: true,
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
@@ -53,6 +54,12 @@ app.whenReady().then(() => {
 
   // IPC test
   ipcMain.on('ping', () => console.log('pong'))
+
+  ipcMain.handle('add-emprestimo', async (event, item) => {
+    const stmt = db.prepare('INSERT INTO emprestimos (nome, telefone, livros, dataEmprestimo, dataDevolucao) VALUES (?, ?, ?, ?, ?)');
+    const info = stmt.run(item.nome, item.telefone, item.livros, item.dataEmprestimo, item.dataDevolucao);
+    return { id: info.lastInsertRowid };
+  });
 
   createWindow()
 

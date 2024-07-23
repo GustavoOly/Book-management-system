@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
 export default function Cadastrar({ data, onSubmit }) {
-
     const [nome, setNome] = useState('');
     const [telefone, setTelefone] = useState('');
     const [livros, setLivros] = useState('');
@@ -19,7 +18,7 @@ export default function Cadastrar({ data, onSubmit }) {
         }
     }, [data]);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const newItem = {
             nome,
@@ -28,6 +27,11 @@ export default function Cadastrar({ data, onSubmit }) {
             dataEmprestimo,
             dataDevolucao,
         };
+
+        
+        const result = await window.electron.ipcRenderer.invoke('add-emprestimo', newItem);
+        console.log('Item added with ID:', result.id);
+
         if (onSubmit) {
             onSubmit(newItem);
         }
@@ -69,7 +73,6 @@ export default function Cadastrar({ data, onSubmit }) {
                         required
                     />
                 </div>
-
                 <div className="mb-4 flex gap-3">
                     <div>
                         <label htmlFor="dataEmprestimo" className="block text-sm font-medium text-gray-700">Data de Empréstimo</label>
@@ -81,7 +84,6 @@ export default function Cadastrar({ data, onSubmit }) {
                             className="mt-1 block p-2 border border-tertiary rounded"
                             required
                         />
-
                     </div>
                     <div>
                         <label htmlFor="dataDevolucao" className="block text-sm font-medium text-gray-700">Prazo de Devolução</label>
@@ -90,7 +92,7 @@ export default function Cadastrar({ data, onSubmit }) {
                             type="date"
                             value={dataDevolucao}
                             onChange={(e) => setDataDevolucao(e.target.value)}
-                            className="mt-1 block  p-2 border border-tertiary rounded"
+                            className="mt-1 block p-2 border border-tertiary rounded"
                             required
                         />
                     </div>
