@@ -1,7 +1,5 @@
 import Header from "../components/Header"
-import NavBar from "../components/NavBar"
-import HistoricTable from "../components/HistoricTable"
-
+import HistoricTable from "../components/table//HistoricTable"
 
 export default function Historico() {
     return (
@@ -9,6 +7,5 @@ export default function Historico() {
             <Header />
             <HistoricTable />
         </>
-
     )
 }

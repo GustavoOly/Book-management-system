@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { GoTrash, GoPencil } from "react-icons/go";
-import Cadastrar from "./Cadastrar";
+import Cadastrar from "../Cadastrar";
+
 
 export default function HistoricTable() {
     const tHeader = ["Nome", "Telefone", "Livro", "Data", "Prazo de devolução", "Estado", ""];
@@ -62,10 +63,23 @@ export default function HistoricTable() {
         setData(updateOverdueStatus(newData));
     };
 
-    const handleDelete = (index) => {
+    const handleDelete = async (index) => {
         setDeletedRow({ ...data[index], index });
         const newData = data.filter((_, i) => i !== index);
         setData(updateOverdueStatus(newData));
+
+        const idToDelete = data[index].id;
+
+        try {
+            const deleteItem = await window.electron.ipcRenderer.invoke('delete-emprestimo', idToDelete);
+            if (deleteItem.changes > 0) {
+                console.log('Item deletado com sucesso');
+            } else {
+                console.log('Erro ao deletar o item');
+            }
+        } catch (error) {
+            console.error('Erro ao invocar delete-emprestimo:', error);
+        }
     };
 
     const handleRestore = () => {
@@ -88,13 +102,24 @@ export default function HistoricTable() {
         setEditFormData({ ...editFormData, [name]: value });
     };
 
-    const handleEditSubmit = (e) => {
+    const handleEditSubmit = async (e) => {
         e.preventDefault();
         const newData = [...data];
         newData[editingRowIndex] = { ...editFormData, status: getStatus(editFormData) };
         setData(updateOverdueStatus(newData));
         setEditingRowIndex(null);
         setEditFormData({});
+
+        try {
+            const editItem = await window.electron.ipcRenderer.invoke('update-emprestimo', newData);
+            if (editItem.changes > 0) {
+                console.log('Item editado com sucesso');
+            } else {
+                console.log('Erro ao editar o item');
+            }
+        } catch (error) {
+            console.error('Erro ao invocar edit-emprestimo:', error);
+        }
     };
 
     const filteredRows = data.filter((row) => {
@@ -130,6 +155,15 @@ export default function HistoricTable() {
                 return "bg-tertiary";
         }
     };
+
+    const getEmprestimos = async () => {
+        const viewTable = await window.electron.ipcRenderer.invoke("get-emprestimos");
+        setData(viewTable);
+    }
+
+    useEffect(() => {
+        getEmprestimos();
+    }, []);
 
     return (
         <section className="w-full h-auto">

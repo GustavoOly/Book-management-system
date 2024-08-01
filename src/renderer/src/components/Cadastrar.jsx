@@ -26,8 +26,8 @@ export default function Cadastrar({ data, onSubmit }) {
             livros,
             dataEmprestimo,
             dataDevolucao,
+            
         };
-
         
         const result = await window.electron.ipcRenderer.invoke('add-emprestimo', newItem);
         console.log('Item added with ID:', result.id);
@@ -72,6 +72,7 @@ export default function Cadastrar({ data, onSubmit }) {
                         className="mt-1 block w-full p-2 border border-tertiary rounded"
                         required
                     />
+                    
                 </div>
                 <div className="mb-4 flex gap-3">
                     <div>
