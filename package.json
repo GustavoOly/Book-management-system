@@ -1,9 +1,9 @@
 {
   "name": "gerenciador_de_livros_alugados",
   "version": "1.0.0",
-  "description": "An Electron application with React",
+  "description": "Aplicativo para gerenciar livros alugados",
   "main": "./out/main/index.js",
-  "author": "example.com",
+  "author": "gustavooly",
   "homepage": "https://electron-vite.org",
   "scripts": {
     "format": "prettier --write .",
