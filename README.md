@@ -1,5 +1,7 @@
 # Gerenciador de Livros Alugados
 
+![feature](./resources/gla.png)
+
 ## Descrição
 Sistema utilizado na gestão de aluguel de livros na biblioteca municipal de Ipameri GO. Este é um aplicativo Electron desenvolvido com React, que permite a gestão eficiente de empréstimos de livros, incluindo funcionalidades para adicionar, editar, deletar e filtrar empréstimos de acordo com o status ("Em andamento", "Atrasado", "Devolvido").
 
