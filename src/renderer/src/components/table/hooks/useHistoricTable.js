@@ -32,11 +32,22 @@ export const useHistoricTable = () => {
         getEmprestimos();
     }, []);
 
+
+    useEffect(() => {
+        if (deletedRow) {  
+            const updatedData = [...data];
+            updatedData.splice(deletedRow.index, 1);
+            setData(updatedData);
+            setDeletedRow(null);
+        }
+    }, [])
+
     const handleSubmit = (newItem) => {
-        newItem.estado = getStatus(newItem);
+        newItem.estado = getStatus(newItem);  
         const updatedData = updateOverdueStatus([...data, newItem]);
         setData(updatedData);
     };
+
 
     const handleComplete = async (index) => {
         const newData = [...data];

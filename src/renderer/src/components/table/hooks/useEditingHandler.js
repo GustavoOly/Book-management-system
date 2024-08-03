@@ -35,8 +35,6 @@ export const useEditingHandler = (data, setData, updateEmprestimo) => {
     }
   };
 
-
-
   return {
     editingRowIndex,
     editFormData,

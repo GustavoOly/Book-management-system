@@ -22,7 +22,6 @@ function createWindow() {
 
   mainWindow.on('ready-to-show', () => {
     mainWindow.show();
-
   });
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
@@ -47,30 +46,36 @@ app.whenReady().then(() => {
   ipcMain.handle('get-emprestimos', async () => {
     const stmt = await db.prepare('SELECT * FROM emprestimos');
     const items = stmt.all();
+    console.log('Emprestimos carregados:', items);
     return items;
   });
 
   ipcMain.handle('update-emprestimo', (event, item) => {
     const stmt = db.prepare('UPDATE emprestimos SET nome = ?, telefone = ?, livros = ?, dataEmprestimo = ?, dataDevolucao = ? WHERE id = ?');
-    const info = stmt.run(item.nome, item.telefone, item.livros, item.dataEmprestimo, item.dataDevolucao, item.id); 
+    const info = stmt.run(item.nome, item.telefone, item.livros, item.dataEmprestimo, item.dataDevolucao, item.id);
+    console.log('Emprestimo atualizado:', item);
     return { changes: info.changes };
   });
 
   ipcMain.handle('update-estado-emprestimo', (event, item) => {
-    console.log('Atualizando item:', item); 
+    console.log('Atualizando item:', item);
     const stmt = db.prepare('UPDATE emprestimos SET estado = ? WHERE id = ?');
     const info = stmt.run(item.estado, item.id);
-    console.log('Mudanças feitas:', info.changes); 
+    console.log('Mudanças feitas:', info.changes);
     return { changes: info.changes };
   });
 
+
   ipcMain.handle('delete-emprestimo', (event, id) => {
+    event.sender.send('delete-emprestimo', id);
     const stmt = db.prepare('DELETE FROM emprestimos WHERE id = ?');
     const info = stmt.run(id);
+    console.log('Emprestimo deletado:', id);
     return { changes: info.changes };
   });
 
   ipcMain.handle('add-emprestimo', (event, item) => {
+
     const currentDate = new Date();
     const returnDate = new Date(item.dataDevolucao);
     let estado = 'Em andamento';
@@ -84,6 +89,7 @@ app.whenReady().then(() => {
     const stmt = db.prepare('INSERT INTO emprestimos (nome, telefone, livros, dataEmprestimo, dataDevolucao, estado) VALUES (?, ?, ?, ?, ?, ?)');
     const info = stmt.run(item.nome, item.telefone, item.livros, item.dataEmprestimo, item.dataDevolucao, estado);
     return { id: info.lastInsertRowid };
+
   });
 
   createWindow();

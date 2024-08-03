@@ -4,7 +4,7 @@ import HistoricTable from "../components/table//HistoricTable"
 export default function Historico() {
     return (
         <>
-            <Header />
+            <Header titulo={"BIBLIOTECA MUNICIPAL"} nome={"JOÃO VEIGA"} />
             <HistoricTable />
         </>
     )

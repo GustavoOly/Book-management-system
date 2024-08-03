@@ -17,8 +17,8 @@ export default function HistoricTable() {
         filterOverdue,
         setFilterOverdue,
         showAll,
-        setShowAll,
         handleSubmit,
+        setShowAll,
         handleComplete,
         handleDelete,
         filteredRows
@@ -43,6 +43,8 @@ export default function HistoricTable() {
                 return "bg-tertiary";
         }
     };
+
+
 
     return (
         <section className="w-full h-auto">
@@ -99,7 +101,7 @@ export default function HistoricTable() {
                     </thead>
                     <tbody>
                         {filteredRows.map((row, index) => (
-                            <tr className="even:bg-quinary" key={index}>
+                            <tr className="even:bg-quinary" key={row}>
                                 <td className={th}>{row.nome}</td>
                                 <td className={th}>{row.telefone}</td>
                                 <td className="p-2 max-w-5 text-center break-words">{row.livros}</td>
