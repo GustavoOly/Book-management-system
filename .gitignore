@@ -6,3 +6,4 @@ out
 .vscode
 .env
 database.db
+dropbox.js
