@@ -18,7 +18,7 @@ export const useEditingHandler = (data, setData, updateEmprestimo) => {
   const handleEditSubmit = async (e) => {
     e.preventDefault();
     const newData = [...data];
-    newData[editingRowIndex] = { ...editFormData, status: getStatus(editFormData) };
+    newData[editingRowIndex] = { ...editFormData, estado: getStatus(editFormData) };
     setData(updateOverdueStatus(newData));
     setEditingRowIndex(null);
     setEditFormData({});
