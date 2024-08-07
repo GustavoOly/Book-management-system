@@ -48,7 +48,6 @@ export const useHistoricTable = () => {
         setData(updatedData);
     };
 
-
     const handleComplete = async (index) => {
         const newData = [...data];
         newData[index].estado = newData[index].estado === "Devolvido" ? getStatus(newData[index]) : "Devolvido";
