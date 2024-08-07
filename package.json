@@ -23,6 +23,7 @@
     "better-sqlite3": "^11.1.2",
     "dotenv": "^16.4.5",
     "electron-updater": "^6.1.7",
+    "firebase": "^10.12.5",
     "react-icons": "^5.2.1",
     "react-modal": "^3.16.1",
     "react-router-dom": "^6.25.1",

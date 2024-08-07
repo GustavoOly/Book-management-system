@@ -26,7 +26,6 @@ export default function Cadastrar({ data, onSubmit }) {
             livros,
             dataEmprestimo,
             dataDevolucao,
-            
         };
         
         const result = await window.electron.ipcRenderer.invoke('add-emprestimo', newItem);
