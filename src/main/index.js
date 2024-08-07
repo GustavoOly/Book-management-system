@@ -2,7 +2,7 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron';
 import { join } from 'path';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
 import icon from '../../resources/logo-ipameri-min.png?asset';
-import db from '../../database/database.js';
+import db, { uploadDatabase, downloadDatabase } from '../../database/database.js';
 
 function createWindow() {
   const mainWindow = new BrowserWindow({
@@ -22,6 +22,10 @@ function createWindow() {
 
   mainWindow.on('ready-to-show', () => {
     mainWindow.show();
+  });
+
+  mainWindow.on('close', async () => {
+    await uploadDatabase();
   });
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
@@ -83,13 +87,11 @@ app.whenReady().then(() => {
     if (currentDate > returnDate) {
       estado = 'Atrasado';
     } else if (currentDate.toDateString() === returnDate.toDateString()) {
-      estado = 'Entregue';
+      estado = 'Em andamento';
     }
-
     const stmt = db.prepare('INSERT INTO emprestimos (nome, telefone, livros, dataEmprestimo, dataDevolucao, estado) VALUES (?, ?, ?, ?, ?, ?)');
     const info = stmt.run(item.nome, item.telefone, item.livros, item.dataEmprestimo, item.dataDevolucao, estado);
     return { id: info.lastInsertRowid };
-
   });
 
   createWindow();
