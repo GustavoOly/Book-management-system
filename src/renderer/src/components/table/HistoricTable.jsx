@@ -24,8 +24,6 @@ export default function HistoricTable() {
         filteredRows
     } = useHistoricTable();
 
-    const { deletedRow, handleRestore, secondsRemaining, setDeletedRow } = useDeletedRowHandler(data, setData);
-
     const { editingRowIndex, editFormData, handleEdit, handleEditChange, handleEditSubmit } = useEditingHandler(data, setData);
 
     const tHeader = ["Nome", "Telefone", "Livro", "Data", "Prazo de devolução", "Estado", ""];
@@ -129,12 +127,6 @@ export default function HistoricTable() {
                         ))}
                     </tbody>
                 </table>
-                {deletedRow && (
-                    <div className="fixed bottom-4 left-4 bg-primary text-secundary p-4 rounded animate-fade-right ">
-                        <p>{secondsRemaining} segundos para Restaurar.</p>
-                        <button onClick={handleRestore} className="bg-blue-500 text-white p-2 rounded mt-2">Restaurar</button>
-                    </div>
-                )}
                 <Modal
                     isOpen={editingRowIndex !== null}
                     onRequestClose={() => setEditingRowIndex(null)}
