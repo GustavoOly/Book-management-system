@@ -2,7 +2,7 @@ import { app, shell, BrowserWindow, ipcMain } from 'electron';
 import { join } from 'path';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
 import icon from '../../resources/logo-ipameri-min.png?asset';
-import db, { uploadDatabase, downloadDatabase } from '../../database/database.js';
+import db from '../../database/database.js';
 
 function createWindow() {
   const mainWindow = new BrowserWindow({
@@ -22,10 +22,6 @@ function createWindow() {
 
   mainWindow.on('ready-to-show', () => {
     mainWindow.show();
-  });
-
-  mainWindow.on('close', async () => {
-    await uploadDatabase();
   });
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
