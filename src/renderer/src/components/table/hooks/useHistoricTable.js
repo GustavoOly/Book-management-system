@@ -16,6 +16,12 @@ export const updateOverdueStatus = (data) => {
     });
 };
 
+export const handleSicronize = () => {
+    getStatus.JSON.stringify();
+    console.log(getStatus);
+    return parseInt(getStatus);
+}
+
 export const useHistoricTable = () => {
     const [data, setData] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");

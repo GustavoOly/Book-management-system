@@ -128,7 +128,7 @@ export default function HistoricTable() {
                 </table>
                 <Modal
                     isOpen={editingRowIndex !== null}
-                    onRequestClose={() => setEditingRowIndex(null)}
+                    onRequestClose={() => editingRowIndex(null)}
                     style={{
                         overlay: {  
                             backgroundColor: 'rgba(0, 0, 0, 0.75)'

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { getStatus, updateOverdueStatus } from './useHistoricTable';
 
-export const useEditingHandler = (data, setData, updateEmprestimo) => {
+export const useEditingHandler = (data, setData) => {
   const [editingRowIndex, setEditingRowIndex] = useState(null);
   const [editFormData, setEditFormData] = useState({});
 

@@ -44,7 +44,7 @@ app.whenReady().then(() => {
   });
 
   ipcMain.handle('get-emprestimos', async () => {
-    const stmt = await db.prepare('SELECT * FROM emprestimos');
+    const stmt = db.prepare('SELECT * FROM emprestimos');
     const items = stmt.all();
     console.log('Emprestimos carregados:', items);
     return items;
