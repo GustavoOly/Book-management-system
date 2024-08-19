@@ -5,51 +5,20 @@
 ## Descrição
 Sistema utilizado na gestão de aluguel de livros na biblioteca municipal de Ipameri GO. Este é um aplicativo Electron desenvolvido com React, que permite a gestão eficiente de empréstimos de livros, incluindo funcionalidades para adicionar, editar, deletar e filtrar empréstimos de acordo com o status ("Em andamento", "Atrasado", "Devolvido").
 
-## Tópicos
-- [Instalação](#instalação)
-- [Scripts Disponíveis](#scripts-disponíveis)
-- [Dependências](#dependências)
-- [Estrutura do Projeto](#estrutura-do-projeto)
-- [Contribuição](#contribuição)
-- [Licença](#licença)
-
 ## Instalação
 
 1. Clone o repositório:
     ```sh
-    git clone https://github.com/GustavoOly/Sistema-de-gestao-de-aluguel.git
+    git clone https://github.com/GustavoOly/Loaned-book-management-system.git
     ```
 2. Navegue até o diretório do projeto:
     ```sh
-    cd gerenciador_de_livros_alugados
+    cd Loaned-book-management-system
     ```
 3. Instale as dependências:
     ```sh
     npm install
     ```
-
-## Scripts Disponíveis
-
-No diretório do projeto, você pode executar:
-
-### `npm start`
-Roda o aplicativo em modo de produção.
-### `npm run dev`
-Roda o aplicativo em modo de desenvolvimento.
-### `npm run build`
-Compila o aplicativo para produção.
-### `npm run build:win`
-Compila o aplicativo para Windows.
-### `npm run build:mac`
-Compila o aplicativo para macOS.
-### `npm run build:linux`
-Compila o aplicativo para Linux.
-### `npm run format`
-Formata o código usando Prettier.
-### `npm run lint`
-Verifica o código usando ESLint e corrige problemas automaticamente.
-### `npm run postinstall`
-Instala as dependências do Electron Builder após a instalação principal.
 
 ## Dependências
 
@@ -81,29 +50,6 @@ Instala as dependências do Electron Builder após a instalação principal.
 - `tailwindcss`: ^3.4.6
 - `vite`: ^5.3.1
 
-## Estrutura do Projeto
-
-A estrutura básica do projeto é a seguinte:
-
-```
-├── src/
-│   ├── main/
-│   │   ├── index.js
-│   ├── renderer/
-│   │   ├── components/
-│   │   ├── hooks/
-│   │   ├── App.jsx
-│   │   ├── index.jsx
-├── out/
-│   ├── main/
-│   │   ├── index.js
-├── database/
-│   ├── database.db
-├── package.json
-├── tailwind.config.js
-├── vite.config.js
-└── README.md
-```
 
 ## Contribuição
 
