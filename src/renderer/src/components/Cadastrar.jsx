@@ -1,25 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
-export default function Cadastrar({ data, onSubmit }) {
+export default function Cadastrar({ onSubmit }) {
     const [nome, setNome] = useState('');
     const [telefone, setTelefone] = useState('');
     const [livros, setLivros] = useState('');
     const [dataEmprestimo, setDataEmprestimo] = useState('');
     const [dataDevolucao, setDataDevolucao] = useState('');
 
-    useEffect(() => {
-        if (Array.isArray(data) && data.length > 0) {
-            const { nome, telefone, livros, dataEmprestimo, dataDevolucao } = data[0];
-            setNome(nome);
-            setTelefone(telefone);
-            setLivros(livros);
-            setDataEmprestimo(dataEmprestimo);
-            setDataDevolucao(dataDevolucao);
-        }
-    }, [data]);
-
     const handleSubmit = async (e) => {
-        e.preventDefault();
         const newItem = {
             nome,
             telefone,
@@ -27,10 +15,8 @@ export default function Cadastrar({ data, onSubmit }) {
             dataEmprestimo,
             dataDevolucao,
         };
-        
-        const result = await window.electron.ipcRenderer.invoke('add-emprestimo', newItem);
+        const result = await window.api.addEmprestimo(newItem);
         console.log('Item added with ID:', result.id);
-
         if (onSubmit) {
             onSubmit(newItem);
         }
@@ -71,7 +57,7 @@ export default function Cadastrar({ data, onSubmit }) {
                         className="mt-1 block w-full p-2 border border-tertiary rounded"
                         required
                     />
-                    
+
                 </div>
                 <div className="mb-4 flex gap-3">
                     <div>
