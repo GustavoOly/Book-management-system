@@ -1,21 +1,21 @@
-import { contextBridge } from 'electron';
+import { contextBridge, ipcRenderer } from 'electron';
 import { electronAPI } from '@electron-toolkit/preload';
 
 const api = {
   getEmprestimos: async () => {
-    return window.electron.invoke('get-emprestimos');
+    return ipcRenderer.invoke('get-emprestimos');
   },
   addEmprestimo: async (item) => {
-    return window.electron.invoke('add-emprestimo', item);
+    return ipcRenderer.invoke('add-emprestimo', item);
   },
   deleteEmprestimo: async (id) => {
-    return window.electron.invoke('delete-emprestimo', id);
+    return ipcRenderer.invoke('delete-emprestimo', id);
   },
   updateEmprestimo: async (item) => {
-    return window.electron.invoke('update-emprestimo', item); 
+    return ipcRenderer.invoke('update-emprestimo', item);
   },
   updateEstadoEmprestimo: async (item) => {
-    return window.electron.invoke('update-estado-emprestimo', item);
+    return ipcRenderer.invoke('update-estado-emprestimo', item);
   }
 };
 

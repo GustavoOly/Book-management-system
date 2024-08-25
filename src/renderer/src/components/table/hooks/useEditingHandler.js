@@ -16,7 +16,7 @@ export const useEditingHandler = (data, setData) => {
   };
 
   const handleEditSubmit = async (e) => {
-    e.preventDefault();
+    //e.preventDefault();
     const newData = [...data];
     newData[editingRowIndex] = { ...editFormData, estado: getStatus(editFormData) };
     setData(updateOverdueStatus(newData));
@@ -24,7 +24,7 @@ export const useEditingHandler = (data, setData) => {
     setEditFormData({});
 
     try {
-      const editItem = await window.electron.ipcRenderer.invoke('update-emprestimo', newData[editingRowIndex]);
+      const editItem = await window.api.updateEmprestimo(newData[editingRowIndex]);
       if (editItem.changes > 0) {
         console.log('Item editado com sucesso');
       } else {

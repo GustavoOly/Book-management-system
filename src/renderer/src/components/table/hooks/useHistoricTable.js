@@ -32,7 +32,7 @@ export const useHistoricTable = () => {
 
     useEffect(() => {
         const getEmprestimos = async () => {
-            const viewTable = await window.electron.ipcRenderer.invoke("get-emprestimos");
+            const viewTable = await window.api.getEmprestimos();
             setData(viewTable);
         }
         getEmprestimos();
@@ -40,7 +40,7 @@ export const useHistoricTable = () => {
 
 
     useEffect(() => {
-        if (deletedRow) {  
+        if (deletedRow) {
             const updatedData = [...data];
             updatedData.splice(deletedRow.index, 1);
             setData(updatedData);
@@ -49,7 +49,7 @@ export const useHistoricTable = () => {
     }, [])
 
     const handleSubmit = (newItem) => {
-        newItem.estado = getStatus(newItem);  
+        newItem.estado = getStatus(newItem);
         const updatedData = updateOverdueStatus([...data, newItem]);
         setData(updatedData);
     };
@@ -60,7 +60,7 @@ export const useHistoricTable = () => {
         setData(updateOverdueStatus(newData));
 
         try {
-            const editItem = await window.electron.ipcRenderer.invoke('update-estado-emprestimo', newData[index]);
+            const editItem = await window.api.updateEstadoEmprestimo(newData[index]);
             if (editItem.changes > 0) {
                 console.log('Item atualizado com sucesso');
             } else {
@@ -79,7 +79,7 @@ export const useHistoricTable = () => {
         const idToDelete = data[index].id;
 
         try {
-            const deleteItem = await window.electron.ipcRenderer.invoke('delete-emprestimo', idToDelete);
+            const deleteItem = await window.api.deleteEmprestimo(idToDelete);
             if (deleteItem.changes > 0) {
                 console.log('Item deletado com sucesso');
             } else {

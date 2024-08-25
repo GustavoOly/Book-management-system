@@ -1,6 +1,6 @@
 import React from 'react';
 import { GoTrash, GoPencil } from "react-icons/go";
-import Cadastrar from "../Cadastrar";
+//import Cadastrar from "../Cadastrar";
 import { useHistoricTable } from './hooks/useHistoricTable';
 import { useEditingHandler } from './hooks/useEditingHandler';
 import Modal from 'react-modal';
@@ -42,8 +42,7 @@ export default function HistoricTable() {
     };
 
     return (
-        <section className="w-full h-auto">
-            <Cadastrar data={data} onSubmit={handleSubmit} />
+        <section className="w-full h-auto">        
             <div className="max-w-7xl min-h-svh  px-2 m-auto">
                 <div className="w-full py-4 flex justify-between items-center gap-2">
                     <input
