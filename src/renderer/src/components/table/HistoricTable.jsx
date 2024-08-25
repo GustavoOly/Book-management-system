@@ -16,7 +16,6 @@ export default function HistoricTable() {
         filterOverdue,
         setFilterOverdue,
         showAll,
-        handleSubmit,
         setShowAll,
         handleComplete,
         handleDelete,
@@ -42,7 +41,7 @@ export default function HistoricTable() {
     };
 
     return (
-        <section className="w-full h-auto">        
+        <section className="w-full h-auto">
             <div className="max-w-7xl min-h-svh  px-2 m-auto">
                 <div className="w-full py-4 flex justify-between items-center gap-2">
                     <input
@@ -95,7 +94,7 @@ export default function HistoricTable() {
                     </thead>
                     <tbody>
                         {filteredRows.map((row, index) => (
-                            <tr className="even:bg-quinary" key={row}>
+                            <tr className="even:bg-quinary" key={row.id}>
                                 <td className={th}>{row.nome}</td>
                                 <td className={th}>{row.telefone}</td>
                                 <td className="p-2 max-w-5 text-center break-words">{row.livros}</td>
@@ -129,7 +128,7 @@ export default function HistoricTable() {
                     isOpen={editingRowIndex !== null}
                     onRequestClose={() => editingRowIndex(null)}
                     style={{
-                        overlay: {  
+                        overlay: {
                             backgroundColor: 'rgba(0, 0, 0, 0.75)'
                         },
                         content: {

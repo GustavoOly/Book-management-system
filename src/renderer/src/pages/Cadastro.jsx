@@ -1,10 +1,11 @@
 import Header from "../components/Header";
 import Cadastrar from "../components/Cadastrar";
-
-export default function Cadastro(){
+import NavBar from "../components/NavBar";
+export default function Cadastro() {
     return (
         <>
-            <Header />
+            <Header titulo={"BIBLIOTECA MUNICIPAL"} nome={"JOÃO VEIGA"} />
+            <NavBar />
             <Cadastrar />
         </>
     )
