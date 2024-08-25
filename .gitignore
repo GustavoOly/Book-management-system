@@ -7,3 +7,4 @@ out
 .env
 database.db
 dropbox.js
+useDeletedRowHandler.js
