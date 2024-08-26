@@ -1,5 +1,5 @@
 appId: com.electron.app
-productName: gerenciador_de_livros_alugados
+productName: 'Gerenciador de livros alugados'
 directories:
   buildResources: build
 files:
@@ -11,7 +11,7 @@ files:
 asarUnpack:
   - resources/**
 win:
-  executableName: gerenciador_de_livros_alugados
+  executableName: Gerenciador de livros alugados
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}
@@ -35,7 +35,7 @@ linux:
   maintainer: electronjs.org
   category: Utility
 appImage:
-  artifactName: ${name}-${version}.${ext}
+  artifactName: Gerenciador de livros alugados - ${version}.${ext}
 npmRebuild: false
 publish:
   provider: generic
