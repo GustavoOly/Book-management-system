@@ -7,7 +7,7 @@ const db = new Database(dbPath);
 const createTable = `
   CREATE TABLE IF NOT EXISTS emprestimos (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    nome TEXT NOT NULL,\
+    nome TEXT NOT NULL,
     telefone TEXT NOT NULL,
     livros TEXT NOT NULL,
     dataEmprestimo TEXT NOT NULL,
