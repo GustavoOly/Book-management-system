@@ -1,6 +1,5 @@
 import React from 'react';
 import { GoTrash, GoPencil } from "react-icons/go";
-//import Cadastrar from "../Cadastrar";
 import { useHistoricTable } from './hooks/useHistoricTable';
 import { useEditingHandler } from './hooks/useEditingHandler';
 import Modal from 'react-modal';

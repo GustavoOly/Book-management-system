@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
-
+import { useNavigate } from 'react-router-dom';
 export default function Cadastrar({ onSubmit }) {
     const [nome, setNome] = useState('');
     const [telefone, setTelefone] = useState('');
     const [livros, setLivros] = useState('');
     const [dataEmprestimo, setDataEmprestimo] = useState('');
     const [dataDevolucao, setDataDevolucao] = useState('');
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
+        e.preventDefault();
         const newItem = {
             nome,
             telefone,
@@ -15,10 +17,15 @@ export default function Cadastrar({ onSubmit }) {
             dataEmprestimo,
             dataDevolucao,
         };
-        const result = await window.api.addEmprestimo(newItem);
-        console.log('Item added with ID:', result.id);
-        if (onSubmit) {
-            onSubmit(newItem);
+        try {
+            const result = await window.api.addEmprestimo(newItem);
+            console.log('Item added with ID:', result.id);
+            if (onSubmit) {
+                onSubmit(newItem);
+            }
+            navigate('/');
+        } catch (error) {
+            console.error('Failed to add item:', error);
         }
     };
 

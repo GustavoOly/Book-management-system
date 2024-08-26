@@ -1,4 +1,5 @@
 import { app, shell, BrowserWindow, ipcMain } from 'electron';
+import { autoUpdater } from 'electron-updater';
 import { join } from 'path';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
 import icon from '../../resources/logo-ipameri-min.png?asset';
@@ -37,6 +38,10 @@ function createWindow() {
   } else {
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'));
   }
+
+  autoUpdater.on('update-downloaded', () => {
+    autoUpdater.quitAndInstall();
+  })
 }
 
 app.whenReady().then(() => {
@@ -78,7 +83,7 @@ app.whenReady().then(() => {
   });
 
   ipcMain.handle('add-emprestimo', (event, item) => {
-
+    event.preventDefault();
     const currentDate = new Date();
     const returnDate = new Date(item.dataDevolucao);
     let estado = 'Em andamento';
