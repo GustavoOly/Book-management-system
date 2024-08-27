@@ -38,7 +38,8 @@ appImage:
   artifactName: Gerenciador de livros alugados - ${version}.${ext}
 npmRebuild: false
 publish:
-  provider: generic
-  url: https://example.com/auto-updates
+  provider: github
+  repo: Loaned-book-management-system
+  owner: GustavoOly
 electronDownload:
   mirror: https://npmmirror.com/mirrors/electron/

@@ -1,6 +1,6 @@
 {
   "name": "gerenciador_de_livros_alugados",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Aplicativo para gerenciar livros alugados",
   "main": "./out/main/index.js",
   "author": "gustavooly",

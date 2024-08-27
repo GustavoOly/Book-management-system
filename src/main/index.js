@@ -39,9 +39,29 @@ function createWindow() {
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'));
   }
 
+  autoUpdater.checkForUpdatesAndNotify();
+
+  autoUpdater.on('update-available', () => {
+    dialog.showMessageBox(mainWindow, {
+      type: 'info',
+      title: 'Atualização disponível',
+      message: 'Uma nova versão está disponível. Ela será baixada em segundo plano.',
+    });
+  });
+
   autoUpdater.on('update-downloaded', () => {
-    autoUpdater.quitAndInstall();
-  })
+    dialog.showMessageBox(mainWindow, {
+      type: 'info',
+      title: 'Atualização pronta',
+      message: 'A nova versão foi baixada. O aplicativo será atualizado após reiniciar.',
+      buttons: ['Reiniciar agora', 'Mais tarde'],
+      defaultId: 0,
+    }).then((result) => {
+      if (result.response === 0) {  // O usuário clicou em "Reiniciar agora"
+        autoUpdater.quitAndInstall();
+      }
+    });
+  });
 }
 
 app.whenReady().then(() => {
