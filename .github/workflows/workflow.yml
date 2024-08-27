@@ -31,27 +31,3 @@ jobs:
 
       - name: Build Electron app
         run: npm run build
-
-  publish:
-    needs: build
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push'
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 20
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Publish to GitHub Releases
-        uses: samuelmeuli/action-electron-builder@v1
-        with:
-          build-script: dist
-          config: electron-builder.yml  
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
