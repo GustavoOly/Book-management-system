@@ -1,6 +1,6 @@
-This system is designed to streamline the management of book rentals. It allows users to efficiently handle book loans, offering key features such as adding, editing, deleting, and filtering loans based on their status ("In Progress," "Overdue," "Returned").
-
 ![feature](./resources/gla.png)
+
+This system is designed to streamline the management of book rentals.
 
 ---
 
@@ -20,6 +20,19 @@ Run the following commands to install dependencies and start the development env
 ```bash
 npm install && npm run dev
 ```
+
+---
+
+#### Features
+
+It allows users to efficiently handle book loans, offering key features such as adding, editing, deleting, and filtering loans based on their status ("In Progress," "Overdue," "Returned").
+
+- [x] Register new books;
+- [x] List of registered books;
+- [x] Change registrations;
+- [x] Remove registrations;
+- [x] Change status of registered items.
+
 ---
 
 #### Contributing
