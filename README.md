@@ -18,7 +18,7 @@ Clone the repository into your desired directory.
 Run the following commands to install dependencies and start the development environment:
 
 ```bash
-npm install && npm run dev
+deno install && deno run dev
 ```
 
 ---

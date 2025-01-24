@@ -1,8 +1,7 @@
-import { BrowserWindow, shell } from 'electron';
-import { join } from 'path';
-import { autoUpdater } from 'electron-updater';
-import { is } from '@electron-toolkit/utils';
-import icon from '../../resources/logo-ipameri-min.png?asset';
+import { BrowserWindow, shell } from 'electron'
+import { join } from 'path'
+import { is } from '@electron-toolkit/utils'
+import icon from '../../resources/logo-ipameri-min.png?asset'
 
 const WINDOW_OPTIONS = {
   width: 1200,
@@ -17,32 +16,28 @@ const WINDOW_OPTIONS = {
     sandbox: false,
     contextIsolation: true,
     enableRemoteModule: false,
-    nodeIntegration: false,
+    nodeIntegration: false
   }
-};
+}
 
 export function createWindow() {
   const mainWindow = new BrowserWindow({
     ...WINDOW_OPTIONS,
-    ...(process.platform === 'linux' || process.platform === "win32" ? { icon } : {}),
-  });
+    ...(process.platform === 'linux' || process.platform === 'win32' ? { icon } : {})
+  })
 
   mainWindow.on('ready-to-show', () => {
-    mainWindow.show();
-  });
+    mainWindow.show()
+  })
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
-    shell.openExternal(details.url);
-    return { action: 'deny' };
-  });
+    shell.openExternal(details.url)
+    return { action: 'deny' }
+  })
 
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
-    mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL']);
+    mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
   } else {
-    mainWindow.loadFile(join(__dirname, '../renderer/index.html'));
+    mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
   }
-
-  autoUpdater.on('update-downloaded', () => {
-    autoUpdater.quitAndInstall();
-  });
 }
