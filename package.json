@@ -3,6 +3,7 @@
   "version": "1.0.2",
   "description": "Aplicativo para gerenciar livros alugados",
   "main": "./out/main/index.js",
+  "type": "module",
   "author": "gustavooly",
   "homepage": "https://github.com/GustavoOly/Loaned-book-management-system",
   "scripts": {
