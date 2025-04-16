@@ -3,7 +3,7 @@ name: Build and Publish Electron App
 on:
   push:
     branches:
-      - dev 
+      - dev
   pull_request:
     branches:
       - master
@@ -24,10 +24,13 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          cache: 'npm'
+          cache: 'yarn'
+
+      - name: Install Yarn
+        run: npm install -g yarn
 
       - name: Install dependencies
-        run: npm install
+        run: yarn install
 
       - name: Build Electron app
-        run: npm run build
+        run: yarn build
